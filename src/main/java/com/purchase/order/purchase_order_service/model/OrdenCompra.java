@@ -1,46 +1,44 @@
 package com.purchase.order.purchase_order_service.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "ORDENES_COMPRA")
+@Getter
+@Setter
+@NoArgsConstructor
 public class OrdenCompra {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull(message = "El ID de cliente es obligatorio")
+    @Column(name = "CLIENTE_ID", nullable = false)
     private Long clienteId;
+
+    @NotNull(message = "El ID de producto es obligatorio")
+    @Column(name = "PRODUCTO_ID", nullable = false)
     private Long productoId;
+
+    @NotNull(message = "La cantidad es obligatoria")
+    @Column(nullable = false)
     private Integer cantidad;
+
+    @NotNull(message = "El total es obligatorio")
+    @Column(nullable = false, columnDefinition = "NUMBER(12,2)")
     private Double total;
+
+    @NotBlank(message = "El estado es obligatorio")
+    @Column(nullable = false, length = 50)
     private String estado;
+
+    @NotBlank(message = "La fecha es obligatoria")
+    @Column(nullable = false, length = 20)
     private String fecha;
-
-    public OrdenCompra() {}
-
-    public OrdenCompra(Long id, Long clienteId, Long productoId, Integer cantidad,
-                       Double total, String estado, String fecha) {
-        this.id = id;
-        this.clienteId = clienteId;
-        this.productoId = productoId;
-        this.cantidad = cantidad;
-        this.total = total;
-        this.estado = estado;
-        this.fecha = fecha;
-    }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Long getClienteId() { return clienteId; }
-    public void setClienteId(Long clienteId) { this.clienteId = clienteId; }
-
-    public Long getProductoId() { return productoId; }
-    public void setProductoId(Long productoId) { this.productoId = productoId; }
-
-    public Integer getCantidad() { return cantidad; }
-    public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
-
-    public Double getTotal() { return total; }
-    public void setTotal(Double total) { this.total = total; }
-
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
-
-    public String getFecha() { return fecha; }
-    public void setFecha(String fecha) { this.fecha = fecha; }
 }

@@ -1,28 +1,21 @@
 package com.purchase.order.purchase_order_service.service;
 
 import com.purchase.order.purchase_order_service.model.Producto;
-import com.purchase.order.purchase_order_service.repository.ProductoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class ProductoService {
+public interface ProductoService {
 
-    @Autowired
-    private ProductoRepository productoRepository;
+    List<Producto> obtenerTodos();
 
-    public List<Producto> obtenerTodos() {
-        return productoRepository.findAll();
-    }
+    Optional<Producto> obtenerPorId(Long id);
 
-    public Optional<Producto> obtenerPorId(Long id) {
-        return productoRepository.findById(id);
-    }
+    List<Producto> obtenerPorCategoria(String categoria);
 
-    public List<Producto> obtenerPorCategoria(String categoria) {
-        return productoRepository.findByCategoria(categoria);
-    }
+    Producto crear(Producto producto);
+
+    Optional<Producto> actualizar(Long id, Producto datos);
+
+    boolean eliminar(Long id);
 }

@@ -1,32 +1,25 @@
 package com.purchase.order.purchase_order_service.service;
 
 import com.purchase.order.purchase_order_service.model.OrdenCompra;
-import com.purchase.order.purchase_order_service.repository.OrdenCompraRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class OrdenCompraService {
+public interface OrdenCompraService {
 
-    @Autowired
-    private OrdenCompraRepository ordenCompraRepository;
+    List<OrdenCompra> obtenerTodas();
 
-    public List<OrdenCompra> obtenerTodas() {
-        return ordenCompraRepository.findAll();
-    }
+    Optional<OrdenCompra> obtenerPorId(Long id);
 
-    public Optional<OrdenCompra> obtenerPorId(Long id) {
-        return ordenCompraRepository.findById(id);
-    }
+    List<OrdenCompra> obtenerPorEstado(String estado);
 
-    public List<OrdenCompra> obtenerPorEstado(String estado) {
-        return ordenCompraRepository.findByEstado(estado);
-    }
+    List<OrdenCompra> obtenerPorCliente(Long clienteId);
 
-    public List<OrdenCompra> obtenerPorCliente(Long clienteId) {
-        return ordenCompraRepository.findByClienteId(clienteId);
-    }
+    OrdenCompra crear(OrdenCompra orden);
+
+    Optional<OrdenCompra> actualizar(Long id, OrdenCompra datos);
+
+    Optional<OrdenCompra> actualizarEstado(Long id, String estado);
+
+    boolean eliminar(Long id);
 }
