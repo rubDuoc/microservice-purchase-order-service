@@ -9,5 +9,5 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@t9vr8xfm2n3t5a6x_low?TNS_ADMIN=/app/oracle_wallet/
       - SPRING_DATASOURCE_USERNAME=BD_DEV
-      - SPRING_DATASOURCE_PASSWORD=Bullanguero12@
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
     restart: always

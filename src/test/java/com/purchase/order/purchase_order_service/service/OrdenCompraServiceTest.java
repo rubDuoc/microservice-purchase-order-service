@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -77,5 +78,47 @@ class OrdenCompraServiceTest {
         assertEquals("PENDIENTE", resultado.get(0).getEstado());
         assertEquals("ENTREGADO", resultado.get(1).getEstado());
         verify(ordenCompraRepository, times(1)).findAll();
+    }
+
+    @Test
+    @DisplayName("Debe actualizar el estado de una orden existente")
+    void actualizarEstadoTest() {
+        // Arrange
+        OrdenCompra existente = new OrdenCompra();
+        existente.setId(10L);
+        existente.setClienteId(1L);
+        existente.setProductoId(2L);
+        existente.setCantidad(3);
+        existente.setTotal(59990.0);
+        existente.setEstado("PENDIENTE");
+        existente.setFecha("2025-05-01");
+
+        when(ordenCompraRepository.findById(10L)).thenReturn(Optional.of(existente));
+        when(ordenCompraRepository.save(existente)).thenReturn(existente);
+
+        // Act
+        Optional<OrdenCompra> resultado = ordenCompraService.actualizarEstado(10L, "ENVIADA");
+
+        // Assert
+        assertTrue(resultado.isPresent());
+        assertEquals("ENVIADA", resultado.get().getEstado());
+        assertEquals(10L, resultado.get().getId());
+        verify(ordenCompraRepository, times(1)).findById(10L);
+        verify(ordenCompraRepository, times(1)).save(existente);
+    }
+
+    @Test
+    @DisplayName("Debe eliminar una orden cuando existe y retornar true")
+    void eliminarOrdenExistenteTest() {
+        // Arrange
+        when(ordenCompraRepository.existsById(5L)).thenReturn(true);
+
+        // Act
+        boolean resultado = ordenCompraService.eliminar(5L);
+
+        // Assert
+        assertTrue(resultado);
+        verify(ordenCompraRepository, times(1)).existsById(5L);
+        verify(ordenCompraRepository, times(1)).deleteById(5L);
     }
 }
